@@ -43,7 +43,7 @@ func atoiOr(s string, alt int) int {
 	return alt
 }
 
-func StatOf(pid int) *Stat {
+/*func StatOf(pid int) *Stat {
 	result := newStat()
 
 	stat, err := os.Open(fmt.Sprintf(pidpath))
@@ -64,4 +64,4 @@ func StatOf(pid int) *Stat {
 	result.Name = parts[statName][1 : len(parts[statName])-1]
 
 	return result
-}
+}*/
