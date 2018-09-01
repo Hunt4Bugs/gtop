@@ -26,13 +26,16 @@ type Process struct {
 	Uid       string
 	Pid       int
 	Utime     float64
+	Putime    float64
 	Stime     float64
+	Pstime    float64
 	Cutime    float64
 	Cstime    float64
 	Previous  float64
 	Current   float64
 	Starttime float64
 	Vsize     int
+	Puptime   float64
 }
 
 func newProcess() *Process {
@@ -50,10 +53,11 @@ func calculateCPU(pid *Process) {
 	curr := float64(pid.Utime + pid.Stime)
 	//totaltime := curr + float64(pid.Cutime+pid.Cstime)
 	//secs := getUptime() - (pid.Starttime / getHertz())
-	fmt.Print(getUptime())
-	fmt.Print(" ")
-	fmt.Println(pid.Starttime)
-	pid.Cpuusage = float64(float64(float64(curr-pid.Previous)/float64(100.0)) * 100.0)
+	stime := pid.Stime - pid.Pstime
+	utime := pid.Utime - pid.Putime
+	uptime := getUptime() - pid.Puptime
+	pid.Cpuusage = float64(float64(stime+utime)/float64(100.0)) / uptime * float64(100.0) //float64(float64(float64(curr-pid.Previous)/float64(100.0)) * 100.0)
+	pid.Puptime = getUptime()
 	pid.Previous = curr
 }
 

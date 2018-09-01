@@ -30,6 +30,7 @@ func initialScan() map[int]*Process {
 			if pid.Username != "" && pid.Cmd != "" {
 				scanStat(pid)
 				prev := pid.Utime + pid.Stime
+				pid.Puptime = getUptime()
 				pid.Previous = prev
 				pids[pid.Pid] = pid
 			}
@@ -40,7 +41,7 @@ func initialScan() map[int]*Process {
 
 	Scan(pids)
 
-	fmt.Print("========================\n")
+	/*fmt.Print("========================\n")
 
 	for k, v := range pids {
 		if v.Cpuusage > 0 {
@@ -49,7 +50,7 @@ func initialScan() map[int]*Process {
 			fmt.Print(v.Cpuusage)
 			fmt.Print("\n")
 		}
-	}
+	}*/
 
 	return pids //[]Process{}
 }
@@ -57,6 +58,8 @@ func initialScan() map[int]*Process {
 func Scan(items map[int]*Process) {
 	for k := range items {
 		p := items[k]
+		p.Pstime = p.Stime
+		p.Putime = p.Utime
 		scanStat(p)
 		calculateCPU(p)
 	}
