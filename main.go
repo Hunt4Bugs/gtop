@@ -19,7 +19,7 @@ func main() {
 
 	pids := initialScan()
 
-	pid, cpu, coms := format(pids)
+	pid, uid, cpu, coms := format(pids)
 
 	pcol := ui.NewList()
 	pcol.Border = false
@@ -34,7 +34,7 @@ func main() {
 	ccol.Width = 7
 	ccol.Height = maxy - quarter
 	ccol.Items = cpu
-	ccol.X = 8
+	ccol.X = 16
 	ccol.Y = quarter
 
 	comcol := ui.NewList()
@@ -42,9 +42,19 @@ func main() {
 	comcol.Width = 20
 	comcol.Height = maxy - quarter
 	comcol.Items = coms
-	comcol.X = 16
+	comcol.X = 24
 	comcol.Y = quarter
-	ui.Render(pcol, ccol, comcol)
+
+	ucol := ui.NewList()
+	ucol.Border = false
+	ucol.Width = 7
+	ucol.Height = maxy - quarter
+	ucol.Items = uid
+	ucol.X = 8
+	ucol.Y = quarter
+
+	//Render view
+	ui.Render(pcol, ucol, ccol, comcol)
 
 	//Handlers below
 
@@ -58,8 +68,9 @@ func main() {
 		//t := e.Data.(ui.EvtTimer)
 		//i := 0
 		Scan(pids)
-		pid, cpu, coms = format(pids)
+		pid, uid, cpu, coms = format(pids)
 		pcol.Items = pid
+		ucol.Items = uid
 		ccol.Items = cpu
 		comcol.Items = coms
 		ui.Render(pcol, ccol, comcol)

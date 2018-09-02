@@ -11,10 +11,24 @@ import (
 	"time"
 )
 
-func format(items map[int]*Process) ([]string, []string, []string) {
+func unique(intSlice []float64) []float64 {
+	keys := make(map[float64]bool)
+	list := []float64{}
+	for _, entry := range intSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
+}
+
+func format(items map[int]*Process) ([]string, []string, []string, []string) {
 	// convert important struct values to columns
 	var pid []string
 	pid = append(pid, "PID")
+	var uid []string
+	uid = append(uid, "User")
 	var cpu []string
 	cpu = append(cpu, "CPU %")
 	var command []string
@@ -29,18 +43,21 @@ func format(items map[int]*Process) ([]string, []string, []string) {
 
 	sort.Float64s(keys)
 
+	keys = unique(keys)
+
 	for i := len(keys) - 1; i >= 0; i-- {
 		k := fmt.Sprintf("%.2f", keys[i])
 		for _, e := range cpumap[k] {
 			if e.Cpuusage != "NaN" {
 				cpu = append(cpu, k)
 				pid = append(pid, strconv.Itoa(e.Pid))
+				uid = append(uid, e.Username)
 				command = append(command, e.Cmd)
 			}
 		}
 	}
 
-	return pid, cpu, command
+	return pid, uid, cpu, command
 }
 
 func initialScan() map[int]*Process {
