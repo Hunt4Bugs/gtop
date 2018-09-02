@@ -21,7 +21,8 @@ const (
 
 type Process struct {
 	Cmd       string
-	Cpuusage  float64
+	Cpuusage  string
+	Cpu       float64
 	Username  string
 	Uid       string
 	Pid       int
@@ -51,12 +52,11 @@ func newProcess() *Process {
 
 func calculateCPU(pid *Process) {
 	curr := float64(pid.Utime + pid.Stime)
-	//totaltime := curr + float64(pid.Cutime+pid.Cstime)
-	//secs := getUptime() - (pid.Starttime / getHertz())
 	stime := pid.Stime - pid.Pstime
 	utime := pid.Utime - pid.Putime
 	uptime := getUptime() - pid.Puptime
-	pid.Cpuusage = float64(float64(stime+utime)/float64(100.0)) / uptime * float64(100.0) //float64(float64(float64(curr-pid.Previous)/float64(100.0)) * 100.0)
+	pid.Cpu = float64(float64(stime+utime)/float64(100.0)) / uptime * float64(100.0)
+	pid.Cpuusage = fmt.Sprintf("%.2f", pid.Cpu)
 	pid.Puptime = getUptime()
 	pid.Previous = curr
 }
@@ -127,7 +127,7 @@ func getUsers() map[string]string {
 	return users
 }
 
-func main() {
-	//peeps := getUsers()
-	initialScan()
-}
+//func main() {
+//peeps := getUsers()
+//initialScan()
+//}

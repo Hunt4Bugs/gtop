@@ -2,7 +2,7 @@ package main
 
 import (
 	ui "github.com/gizak/termui"
-	"strconv"
+	//"strconv"
 )
 
 func main() {
@@ -13,28 +13,38 @@ func main() {
 	//maxx := ui.TermWidth()
 	maxy := ui.TermHeight()
 
-	quarter := int(float64(maxy) * 0.30)
+	quarter := 0 //int(float64(maxy) * 0.30)
 
 	defer ui.Close()
 
-	var strs []string
+	pids := initialScan()
 
-	pids := Listpids()
+	pid, cpu, coms := format(pids)
 
-	i := 0
-	for i = 0; i < len(pids); i++ {
-		strs = append(strs, strconv.Itoa(pids[i].PID))
-	}
+	pcol := ui.NewList()
+	pcol.Border = false
+	pcol.Width = 6
+	pcol.Height = maxy - quarter
+	pcol.Items = pid
+	pcol.X = 0
+	pcol.Y = quarter
 
-	ls := ui.NewList()
-	ls.Border = false
-	ls.Width = 5
-	ls.Height = maxy - quarter
-	ls.Items = strs
-	ls.X = 0
-	ls.Y = quarter
+	ccol := ui.NewList()
+	ccol.Border = false
+	ccol.Width = 7
+	ccol.Height = maxy - quarter
+	ccol.Items = cpu
+	ccol.X = 8
+	ccol.Y = quarter
 
-	ui.Render(ls)
+	comcol := ui.NewList()
+	comcol.Border = false
+	comcol.Width = 20
+	comcol.Height = maxy - quarter
+	comcol.Items = coms
+	comcol.X = 16
+	comcol.Y = quarter
+	ui.Render(pcol, ccol, comcol)
 
 	//Handlers below
 
@@ -46,13 +56,13 @@ func main() {
 	// interval loop to update everything
 	ui.Handle("/timer/1s", func(e ui.Event) {
 		//t := e.Data.(ui.EvtTimer)
-		i := 0
-		strs := make([]string, 0)
-		for i = 0; i < len(pids); i++ {
-			strs = append(strs, strconv.Itoa(pids[i].PID))
-		}
-		ls.Items = strs
-		ui.Render(ls)
+		//i := 0
+		Scan(pids)
+		pid, cpu, coms = format(pids)
+		pcol.Items = pid
+		ccol.Items = cpu
+		comcol.Items = coms
+		ui.Render(pcol, ccol, comcol)
 	})
 	ui.Loop()
 }
