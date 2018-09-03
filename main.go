@@ -22,6 +22,8 @@ func main() {
 
 	arr := format(pids)
 
+	//TODO: add block to top of page with system info (i.e. cpu, memory and swap)
+
 	table := ui.NewList()
 	table.Border = false
 	//table.Separator = false

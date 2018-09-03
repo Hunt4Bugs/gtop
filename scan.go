@@ -23,21 +23,8 @@ func unique(intSlice []float64) []float64 {
 	return list
 }
 
-func format(items map[int]*Process) []string { //([]string, []string, []string, []string, []string) {
+func format(items map[int]*Process) []string {
 	// convert important struct values to columns
-	/*var pid []string
-	pid = append(pid, "PID")
-	var uid []string
-	uid = append(uid, "User")
-	var cpu []string
-	cpu = append(cpu, "CPU %")
-	var mem []string
-	mem = append(mem, "Mem %")
-	var command []string
-	command = append(command, "Command")
-	table := [][]string{
-		[]string{"PID", "User", "CPU %", "Mem %", "Command"},
-	}*/
 	table := []string{fmt.Sprintf("%-7s|%7s|%-7s|%-7s|%-30s|", "PID", "User", "CPU %", "Mem %", "Command")}
 	cpumap := make(map[string][]Process)
 
@@ -62,12 +49,6 @@ func format(items map[int]*Process) []string { //([]string, []string, []string, 
 				mem := fmt.Sprintf("%.1f", 100.00*(float64(e.Vmrss)/8026300.00))
 				val := fmt.Sprintf("%-7s|%7s|%-7s|%-7s|%-30s", strconv.Itoa(e.Pid), un, k, mem, e.Cmd)
 				table = append(table, val)
-				//append(table, []string{strconv.Itoa(e.Pid), e.Username, k, fmt.Sprintf("%.1f", 100.00*(float64(e.Vmrss)/8026300.00)), e.Cmd})
-				/*cpu = append(cpu, k)
-				pid = append(pid, strconv.Itoa(e.Pid))
-				uid = append(uid, e.Username)
-				mem = append(mem, fmt.Sprintf("%.1f", 100.00*(float64(e.Vmrss)/8026300.00)))
-				command = append(command, e.Cmd)*/
 			}
 		}
 	}
