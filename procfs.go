@@ -35,7 +35,7 @@ type Process struct {
 	Previous  float64
 	Current   float64
 	Starttime float64
-	Vsize     int
+	Vmrss     int
 	Puptime   float64
 }
 
@@ -45,7 +45,7 @@ func newProcess() *Process {
 	proc.Username = ""
 	proc.Utime = -1
 	proc.Stime = -1
-	proc.Vsize = -1
+	proc.Vmrss = -1
 	proc.Pid = -1
 	return proc
 }
@@ -56,7 +56,7 @@ func calculateCPU(pid *Process) {
 	utime := pid.Utime - pid.Putime
 	uptime := getUptime() - pid.Puptime
 	pid.Cpu = float64(float64(stime+utime)/float64(100.0)) / uptime * float64(100.0)
-	pid.Cpuusage = fmt.Sprintf("%.2f", pid.Cpu)
+	pid.Cpuusage = fmt.Sprintf("%.1f", pid.Cpu)
 	pid.Puptime = getUptime()
 	pid.Previous = curr
 }

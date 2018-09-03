@@ -23,7 +23,7 @@ func unique(intSlice []float64) []float64 {
 	return list
 }
 
-func format(items map[int]*Process) ([]string, []string, []string, []string) {
+func format(items map[int]*Process) ([]string, []string, []string, []string, []string) {
 	// convert important struct values to columns
 	var pid []string
 	pid = append(pid, "PID")
@@ -31,6 +31,8 @@ func format(items map[int]*Process) ([]string, []string, []string, []string) {
 	uid = append(uid, "User")
 	var cpu []string
 	cpu = append(cpu, "CPU %")
+	var mem []string
+	mem = append(mem, "Mem %")
 	var command []string
 	command = append(command, "Command")
 	cpumap := make(map[string][]Process)
@@ -46,18 +48,19 @@ func format(items map[int]*Process) ([]string, []string, []string, []string) {
 	keys = unique(keys)
 
 	for i := len(keys) - 1; i >= 0; i-- {
-		k := fmt.Sprintf("%.2f", keys[i])
+		k := fmt.Sprintf("%.1f", keys[i])
 		for _, e := range cpumap[k] {
 			if e.Cpuusage != "NaN" {
 				cpu = append(cpu, k)
 				pid = append(pid, strconv.Itoa(e.Pid))
 				uid = append(uid, e.Username)
+				mem = append(mem, fmt.Sprintf("%.1f", 100.00*(float64(e.Vmrss)/8026300.00)))
 				command = append(command, e.Cmd)
 			}
 		}
 	}
 
-	return pid, uid, cpu, command
+	return pid, uid, cpu, mem, command
 }
 
 func initialScan() map[int]*Process {
@@ -168,6 +171,7 @@ func scanStat(pid *Process) {
 
 func scanStatus(pid *Process) {
 	uidstr := "Uid:"
+	vmrss := "VmRSS:"
 
 	statuscontent, err := os.Open(fmt.Sprintf(pidpath, pid.Pid, status))
 
@@ -183,6 +187,8 @@ func scanStatus(pid *Process) {
 				case uidstr:
 					pid.Uid = text[1]
 					pid.Username = getUsers()[pid.Uid]
+				case vmrss:
+					pid.Vmrss, err = strconv.Atoi(text[1])
 				}
 			}
 		}

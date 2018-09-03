@@ -19,8 +19,9 @@ func main() {
 
 	pids := initialScan()
 
-	pid, uid, cpu, coms := format(pids)
+	pid, uid, cpu, mem, coms := format(pids)
 
+	// pid column
 	pcol := ui.NewList()
 	pcol.Border = false
 	pcol.Width = 6
@@ -29,6 +30,7 @@ func main() {
 	pcol.X = 0
 	pcol.Y = quarter
 
+	// cpu column
 	ccol := ui.NewList()
 	ccol.Border = false
 	ccol.Width = 7
@@ -37,14 +39,16 @@ func main() {
 	ccol.X = 16
 	ccol.Y = quarter
 
+	//command column
 	comcol := ui.NewList()
 	comcol.Border = false
 	comcol.Width = 20
 	comcol.Height = maxy - quarter
 	comcol.Items = coms
-	comcol.X = 24
+	comcol.X = 32
 	comcol.Y = quarter
 
+	// username column
 	ucol := ui.NewList()
 	ucol.Border = false
 	ucol.Width = 7
@@ -53,10 +57,16 @@ func main() {
 	ucol.X = 8
 	ucol.Y = quarter
 
-	//Render view
-	ui.Render(pcol, ucol, ccol, comcol)
+	memcol := ui.NewList()
+	memcol.Border = false
+	memcol.Width = 7
+	memcol.Height = maxy - quarter
+	memcol.Items = mem
+	memcol.X = 24
+	memcol.Y = quarter
 
-	//Handlers below
+	//Render view
+	ui.Render(pcol, ucol, ccol, memcol, comcol)
 
 	// quits when q is pressed
 	ui.Handle("/sys/kbd/q", func(ui.Event) {
@@ -68,12 +78,13 @@ func main() {
 		//t := e.Data.(ui.EvtTimer)
 		//i := 0
 		Scan(pids)
-		pid, uid, cpu, coms = format(pids)
+		pid, uid, cpu, mem, coms = format(pids)
 		pcol.Items = pid
 		ucol.Items = uid
 		ccol.Items = cpu
 		comcol.Items = coms
-		ui.Render(pcol, ccol, comcol)
+		memcol.Items = mem
+		ui.Render(pcol, ucol, ccol, memcol, comcol)
 	})
 	ui.Loop()
 }
