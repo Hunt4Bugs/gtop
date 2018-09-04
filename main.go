@@ -21,8 +21,15 @@ func main() {
 	pids := initialScan()
 
 	arr := format(pids)
+	header := getDeviceInfo()
 
-	//TODO: add block to top of page with system info (i.e. cpu, memory and swap)
+	h := ui.NewList()
+	h.Border = false
+	h.Width = maxx
+	h.Height = 4
+	h.Items = header
+	h.X = 0
+	h.Y = 0
 
 	table := ui.NewList()
 	table.Border = false
@@ -33,7 +40,7 @@ func main() {
 	table.X = 0
 	table.Y = quarter
 
-	ui.Render(table)
+	ui.Render(table, h)
 
 	// quits when q is pressed
 	ui.Handle("/sys/kbd/q", func(ui.Event) {
@@ -47,13 +54,15 @@ func main() {
 		Scan(pids)
 		//pid, uid, cpu, mem, coms = format(pids)
 		arr = format(pids)
+		header = getDeviceInfo()
 		/*pcol.Items = pid
 		ucol.Items = uid
 		ccol.Items = cpu
 		comcol.Items = coms
 		memcol.Items = mem*/
 		table.Items = arr
-		ui.Render(table) //pcol, ucol, ccol, memcol, comcol)
+		h.Items = header
+		ui.Render(table, h) //pcol, ucol, ccol, memcol, comcol)
 	})
 	ui.Loop()
 }

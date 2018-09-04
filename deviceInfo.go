@@ -1,6 +1,8 @@
 package main
 
-import ()
+import (
+	"fmt"
+)
 
 type DeviceInfo struct {
 	swapSize int
@@ -13,10 +15,15 @@ type DeviceInfo struct {
 	cache    int
 }
 
-func getDeviceInfo() DeviceInfo {
+func getDeviceInfo() []string {
+	var arr []string
 	var d DeviceInfo
 
 	//d.swapSize, d.swapUsed = getSwap()
 	getMem(&d)
-	return d
+
+	arr = append(arr, fmt.Sprintf("KiB Mem : %d total, %d free, %d used, %d buff/cache", d.memSize, d.memFree, d.memUsed, d.buffer+d.cache))
+	arr = append(arr, fmt.Sprintf("KiB Swap: %d total, %d free, %d used", d.swapSize, d.swapFree, d.swapUsed))
+
+	return arr
 }
