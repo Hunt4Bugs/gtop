@@ -61,7 +61,7 @@ func main() {
 			ui.Render(table, h)
 			<-drawTicker.C
 		}
-	}
+	}()
 
 	/*/ interval loop to update everything
 	ui.Handle("/timer/1s", func(e ui.Event) {
