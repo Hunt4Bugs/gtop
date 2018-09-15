@@ -47,7 +47,22 @@ func main() {
 		ui.StopLoop()
 	})
 
-	// interval loop to update everything
+	
+	drawTicker := time.NewTicker(time.Second)
+
+	go func(){
+		for{
+			Scan(pids)
+			arr = format(pids)
+			header = getDeviceInfo()
+			table.Items = arr
+			h.Items = header
+			ui.Render(table, h)
+			<-drawTicker.C
+		}
+	}
+
+	/*/ interval loop to update everything
 	ui.Handle("/timer/1s", func(e ui.Event) {
 		//t := e.Data.(ui.EvtTimer)
 		//i := 0
@@ -59,10 +74,10 @@ func main() {
 		ucol.Items = uid
 		ccol.Items = cpu
 		comcol.Items = coms
-		memcol.Items = mem*/
+		memcol.Items = mem *
 		table.Items = arr
 		h.Items = header
 		ui.Render(table, h) //pcol, ucol, ccol, memcol, comcol)
-	})
+	})*/
 	ui.Loop()
 }
