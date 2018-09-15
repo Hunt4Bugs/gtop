@@ -44,7 +44,7 @@ func main() {
 	ui.Render(table, h)
 
 	// quits when q is pressed
-	ui.Handle("/sys/kbd/q", func(ui.Event) {
+	ui.Handle("q", func(ui.Event) {
 		ui.StopLoop()
 	})
 
