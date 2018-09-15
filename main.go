@@ -2,6 +2,7 @@ package main
 
 import (
 	ui "github.com/gizak/termui"
+	"time"
 	//tb "github.com/nsf/termbox-go"
 	//"strconv"
 )
