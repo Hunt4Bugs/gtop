@@ -1,7 +1,7 @@
 package main
 
 import (
-	
+	"github.com/Hunt4Bugs/gtop/internal/tui"
 	ui "github.com/gizak/termui"
 	proc "github.com/Hunt4Bugs/gtop/pkg/procps"
 	"time"
@@ -48,7 +48,7 @@ func main() {
 	arr := proc.Format(pids)
 	header := proc.GetDeviceInfo()
 
-	h,table := getUI(header,arr)
+	h,table := tui.GetUI(header,arr)
 
 	defer ui.Close()
 	
@@ -61,11 +61,11 @@ func main() {
 			header = proc.GetDeviceInfo()
 			table.Items = arr
 			h.Items = header
-			ui.Render(table, h)
+			tui.Render(table, h)
 			time.Sleep(time.Second)
 			<-drawTicker.C
 		}
 	}()
 
-	ui.Loop()
+	tui.Loop()
 }
