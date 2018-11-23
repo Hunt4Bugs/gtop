@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd cmd/gtop
+go get -d -v && go build
+cd ../..
+cp cmd/gtop/gtop .
