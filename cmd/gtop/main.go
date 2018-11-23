@@ -3,7 +3,7 @@ package main
 import (
 	
 	ui "github.com/gizak/termui"
-	proc "github.com/Hunt4Bugs/gtop/pkg/procps-go"
+	proc "github.com/Hunt4Bugs/gtop/pkg/procps"
 	"time"
 	//"strconv"
 )
@@ -56,7 +56,7 @@ func main() {
 
 	go func(){
 		for{
-			Scan(pids)
+			proc.Scan(pids)
 			arr = proc.Format(pids)
 			header = proc.GetDeviceInfo()
 			table.Items = arr
