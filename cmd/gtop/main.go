@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Hunt4Bugs/internal/tui"
+	"github.com/Hunt4Bugs/gtop/internal/tui"
 	ui "github.com/gizak/termui"
 	proc "github.com/Hunt4Bugs/gtop/pkg/procps"
 	"time"
