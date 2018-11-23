@@ -47,7 +47,7 @@ func main() {
 	arr := proc.Format(pids)
 	header := proc.GetDeviceInfo()
 
-	h,table := ui.GetUI(header,arr)
+	h,table := GetUI(header,arr)
 
 	defer ui.Close()
 	
