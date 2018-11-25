@@ -54,7 +54,7 @@ func main() {
 
 	defer ui.Close()
 	
-	drawTicker := time.NewTicker(time.Second)
+	drawTicker := time.NewTicker(time.Duration(delay) * time.Second)
 
 	go func(){
 		for{
