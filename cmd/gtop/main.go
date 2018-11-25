@@ -4,6 +4,7 @@ import (
 	ui "github.com/gizak/termui"
 	proc "github.com/Hunt4Bugs/gtop/pkg/procps"
 	"time"
+	"flag"
 	//"strconv"
 )
 
@@ -41,6 +42,8 @@ func getUI(header, arr []string) (*ui.List,*ui.List){
 }
 
 func main() {
+	var delay int
+	flag.IntVar(&delay, "d", 1, "specify delay (in seconds) to use.  defaults to 1 second")
 
 	pids := proc.InitialScan()
 
@@ -61,7 +64,7 @@ func main() {
 			table.Items = arr
 			h.Items = header
 			ui.Render(table, h)
-			time.Sleep(time.Second)
+			time.Sleep(delay * time.Second)
 			<-drawTicker.C
 		}
 	}()
