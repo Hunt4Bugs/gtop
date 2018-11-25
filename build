@@ -1,6 +1,6 @@
 #!/bin/bash
 CMD = $1
-cd cmd/$CMD
+cd cmd/$1
 go get -d -v && go build
 cd ../..
-cp cmd/$CMD/$CMD .
+cp cmd/$1/$1 .
