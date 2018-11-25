@@ -64,7 +64,7 @@ func main() {
 			table.Items = arr
 			h.Items = header
 			ui.Render(table, h)
-			time.Sleep(delay * time.Second)
+			time.Sleep(time.Duration(delay) * time.Second)
 			<-drawTicker.C
 		}
 	}()
