@@ -1,6 +1,6 @@
 #!/bin/bash
-
-cd cmd/$1
+CMD = $1
+cd cmd/$CMD
 go get -d -v && go build
 cd ../..
-cp cmd/gtop/gtop .
+cp cmd/$CMD/$CMD .
