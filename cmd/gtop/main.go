@@ -44,6 +44,7 @@ func getUI(header, arr []string) (*ui.List,*ui.List){
 func main() {
 	var delay int
 	flag.IntVar(&delay, "d", 1, "specify delay (in seconds) to use.  defaults to 1 second")
+	flag.Parse()
 
 	pids := proc.InitialScan()
 
