@@ -58,6 +58,8 @@ func main() {
 
 	go func(){
 		for t := range drawTicker.C{
+			_ := t
+			_ = t
 			proc.Scan(pids)
 			arr = proc.Format(pids)
 			header = proc.GetDeviceInfo()
