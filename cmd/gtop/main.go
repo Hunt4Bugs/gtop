@@ -57,8 +57,7 @@ func main() {
 	drawTicker := time.NewTicker(time.Duration(delay) * time.Second)
 
 	go func(){
-		for t := range drawTicker.C{
-			_ := t
+		for _,t := range drawTicker.C{
 			_ = t
 			proc.Scan(pids)
 			arr = proc.Format(pids)
