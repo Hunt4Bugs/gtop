@@ -57,14 +57,13 @@ func main() {
 	drawTicker := time.NewTicker(time.Duration(delay) * time.Second)
 
 	go func(){
-		for{
+		for t := range drawTicker.C{
 			proc.Scan(pids)
 			arr = proc.Format(pids)
 			header = proc.GetDeviceInfo()
 			table.Items = arr
 			h.Items = header
 			ui.Render(table, h)
-			time.Sleep(time.Duration(delay) * time.Second)
 			<-drawTicker.C
 		}
 	}()
